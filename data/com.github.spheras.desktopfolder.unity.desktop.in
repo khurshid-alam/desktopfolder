@@ -1,14 +1,15 @@
 [Desktop Entry]
 _Name=Desktop Folder
 _Comment=Organize your desktop with panels, notes and photos
-Exec=com.github.spheras.desktopfolder
+Exec=env GTK_CSD=1 desktopfolder
 Icon=com.github.spheras.desktopfolder
 Keywords=desktop;folder;file;organize;
 Terminal=false
 Type=Application
 NoDisplay=false
-NotShowIn=Unity
+OnlyShowIn=Unity
 X-GNOME-Autostart-enabled=true
 X-GNOME-Autostart-phase=Running
 StartupNotify=false
+X-GNOME-Autostart-Delay=10
 Categories=GTK;Utility;
