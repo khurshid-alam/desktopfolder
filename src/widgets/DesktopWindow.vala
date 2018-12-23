@@ -279,8 +279,11 @@ public class DesktopFolder.DesktopWindow : DesktopFolder.FolderWindow {
             if (current_desktop == "Pantheon") {
                 debug ("We are in pantheon...");
                 command = "xdg-open settings://desktop";
-            } else {
-                command = "gnome-control-center background";
+            } else if (current_desktop == "Unity:Unity7:ubuntu") {
+                debug ("We are in unity...");
+                command = "unity-control-center appearance";
+			} else {
+				command = "gnome-control-center background";
             }
 
             var appinfo = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.SUPPORTS_URIS);
