@@ -283,23 +283,53 @@ public class DesktopFolder.ItemManager : Object, DragnDrop.DndView, Clipboard.Cl
     }
 
     /**
+     * @name is_unity
+     * @description check whether current desktop ssesion is unity or not
+     */
+    public bool is_unity () {
+        string arg = GLib.Environment.get_variable ("XDG_CURRENT_DESKTOP");
+	    if (arg.contains("Unity")) {
+	        return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * @name execute
      * @description execute the file associated with this item
      */
     public void execute () {
         // we must launch the file/folder
         try {
+            GLib.AppLaunchContext ctx = new GLib.AppLaunchContext();
+            ctx.setenv("GTK_CSD", "0");
             if (this.is_desktop_file ()) {
                 GLib.DesktopAppInfo desktopApp = new GLib.DesktopAppInfo.from_filename (this.get_absolute_path ());
-                desktopApp.launch_uris (null, null);
+                if (this.is_unity ()) {
+                    desktopApp.launch_uris (null, ctx);
+                }
+                else {
+                    desktopApp.launch_uris (null, null);
+                }
             } else if (this.is_executable ()) {
                 var command = "\"" + this.get_absolute_path () + "\"";
                 var appinfo = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.NONE);
-                appinfo.launch_uris (null, null);
+                if (this.is_unity ()) {
+                    appinfo.launch_uris (null, ctx);
+                }
+                else {
+                    appinfo.launch_uris (null, null);
+                }
             } else {
                 var command = "xdg-open \"" + this.folder.get_absolute_path () + "/" + this.file_name + "\"";
                 var appinfo = AppInfo.create_from_commandline (command, null, AppInfoCreateFlags.SUPPORTS_URIS);
-                appinfo.launch_uris (null, null);
+                if (this.is_unity ()) {
+                    appinfo.launch_uris (null, ctx);
+                }
+                else {
+                    appinfo.launch_uris (null, null);
+                }
             }
         } catch (Error e) {
             stderr.printf ("Error: %s\n", e.message);
