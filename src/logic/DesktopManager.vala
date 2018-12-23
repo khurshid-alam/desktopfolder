@@ -37,7 +37,7 @@ public class DesktopFolder.DesktopManager : DesktopFolder.FolderManager {
 
         // we cannot be moved
         this.is_moveable = false;
-        this.get_view ().set_type_hint (Gdk.WindowTypeHint.DOCK);
+        this.get_view ().set_type_hint (Gdk.WindowTypeHint.DESKTOP);
         this.get_view ().change_body_color (0);
 
         Gdk.Screen screen = Gdk.Screen.get_default ();
